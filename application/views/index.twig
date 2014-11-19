@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ application.name }}</title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<ul class="nav">
+    {% for name, url in menu %}
+    <li {% if current == name %} class="active" {% endif %}>
+    <a href="{{ url}}">{{ name|capitalize}}</a>
+    </li>
+    {% endfor %}
+</ul>
+
+<h1>{{ application.name }}</h1>
+<h2>{{ auteur }}</h2>
+<h3>{{ application.version }}</h3>
+<ul>
+    <li>Indice 0 : {{ tab[0] }}</li>
+    <li>Indice 1 : {{ tab[1] }}</li>
+    <li>Indice 2 : {{ tab[2] }}</li>
+    <li>Indice 3 : {{ tab[3] }}</li>
+</ul>
+<h2>{{ auteur2 }}</h2>
+<h3>{{ application.version }}</h3>
+<ul>
+    <li>Indice 0 : {{ tab2[0] }}</li>
+    <li>Indice 1 : {{ tab2[1] }}</li>
+    <li>Indice 2 : {{ tab2[2] }}</li>
+    <li>Indice 3 : {{ tab2[3] }}</li>
+</ul>
+
+<h2>{{ auteur2 }}</h2>
+<h3>{{ application.version }}</h3>
+<p> Ceci est généré par une boucle </p>
+<ul>
+    {% for i in [0,1,2,3] %}
+    <li>Indice {{ i }} : {{ tab[i] }}</li>
+    {% endfor %}
+</ul>
+
+<ul>
+    <!--Commence à 1 -->
+    {% for el in tab %}
+    <li>Indice {{ loop.index }} : {{ el }}</li>
+    {% endfor %}
+</ul>
+
+<ul>
+   <!-- //Commence à 0 -->
+    {% for el in tab %}
+    <li>Indice {{ loop.index0 }} : {{ el }}</li>
+    {% endfor %}
+</ul>
+
+
+</body>
+</html>
