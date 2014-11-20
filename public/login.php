@@ -21,23 +21,30 @@ catch (Exception $e){
     die('Erreur:'.$e->getMessage());
 }
 
-if(isset($_POST['login']) AND (!empty($_POST['login']))
-    AND isset($_POST['password']) AND (!empty($_POST['password']))
-    AND isset($_POST['email']) AND (!empty($_POST['email']))) {
+if($_SERVER['REQUEST_METHOD'] == 'POST'){
 
-    if(preg_match('#^[_a-z0-9._-]+@[_a-z0-9._-]{2,}\.[a-z]{2,4}$#', $_POST['email'])){
+    if(isset($_POST['login']) AND (!empty($_POST['login']))
+        AND isset($_POST['password']) AND (!empty($_POST['password']))
+        AND isset($_POST['email']) AND (!empty($_POST['email']))) {
 
-        if($_POST['password'] == $_POST['confirm']){
-            $log = $_POST['login'];
-            $pass = sha1($_POST['password']);
-            $mail = $_POST['email'];
+        if(preg_match('#^[_a-z0-9._-]+@[_a-z0-9._-]{2,}\.[a-z]{2,4}$#', $_POST['email'])){
 
-            $req = $bdd->prepare("INSERT INTO users(email, login, password) VALUES(:email, :log, :pass)");
-            $req->execute(array(
-                'email' => $mail,
-                'log' => $log,
-                'pass' => $pass
-            ));
+            if($_POST['password'] == $_POST['confirm']){
+                $log = $_POST['login'];
+                $pass = sha1($_POST['password']);
+                $mail = $_POST['email'];
+
+                $req = $bdd->prepare("INSERT INTO users(email, login, password) VALUES(:email, :log, :pass)");
+                $req->execute(array(
+                    'email' => $mail,
+                    'log' => $log,
+                    'pass' => $pass
+                ));
+            }
+            else{
+                header('Location: register.php');
+            }
+
         }
         else{
             header('Location: register.php');
@@ -47,9 +54,6 @@ if(isset($_POST['login']) AND (!empty($_POST['login']))
     else{
         header('Location: register.php');
     }
+}
 
-}
-else{
-    header('Location: register.php');
-}
 echo $twig->render('login.twig');
