@@ -24,6 +24,26 @@ catch (Exception $e){
 if(isset($_POST['login']) AND (!empty($_POST['login']))
     AND isset($_POST['password']) AND (!empty($_POST['password']))){
 
+    $log = $_POST['login'];
+    $pass = sha1($_POST['password']);
+
+    $query = $bdd->prepare("SELECT COUNT(*) FROM users WHERE login = :login");
+    $query->execute(array(
+        'login' => $log
+    ));
+   $result = $query->fetch();
+
+    if($result[0] == 0){
+        echo "NO RESULTS";
+    }
+    else{
+         echo "RESULTS FOUND";
+    }
+
+
+}
+else{
+    header('Location: login.php');
 }
 
 $datas = array(

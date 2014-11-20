@@ -13,6 +13,23 @@ $twig = new Twig_Environment($loader);
 // Dans le fichier index.twig, le code {{ name }}
 // sera remplacé par sa valeur dans le tableau ("World")
 
+$datas = array(
+    'auteur' => 'Nicolas Rigal',
+    'auteur2' => 'Floriant Michel',
+    'application' => array(
+        'name' => 'TP-01-PHP',
+        'version' => '1.0'
+    ),
+    'menu' => array(
+        'login' => 'login.php',
+        'register' => 'register.php',
+        'home' => 'index.php'
+    ),
+    'current' => 'login',
+    'tab' => array('20 ans', '60 kg', '175 cm', 'green lover'),
+    'tab2' => array('47 ans', '122 kg', '160 cm', 'french lover')
+);
+
 try{
     $bdd = new PDO('mysql:host=localhost;dbname=mycroblog', 'root', '');
     $bdd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -56,4 +73,4 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     }
 }
 
-echo $twig->render('login.twig');
+echo $twig->render('login.twig', $datas);
