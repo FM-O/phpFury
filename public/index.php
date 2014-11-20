@@ -13,6 +13,19 @@ $twig = new Twig_Environment($loader);
 // Dans le fichier index.twig, le code {{ name }}
 // sera remplacé par sa valeur dans le tableau ("World")
 
+try{
+    $bdd = new PDO('mysql:host=localhost;dbname=mycroblog', 'root', '');
+    $bdd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+}
+catch (Exception $e){
+    die('Erreur:'.$e->getMessage());
+}
+
+if(isset($_POST['login']) AND (!empty($_POST['login']))
+    AND isset($_POST['password']) AND (!empty($_POST['password']))){
+
+}
+
 $datas = array(
     'auteur' => 'Nicolas Rigal',
     'auteur2' => 'Florian Michel',

@@ -25,7 +25,7 @@ $datas = array(
         'register' => 'register.php',
         'home' => 'index.php'
     ),
-    'current' => 'home',
+    'current' => 'register',
     'tab' => array('20 ans', '60 kg', '175 cm', 'green lover'),
     'tab2' => array('47 ans', '122 kg', '160 cm', 'french lover')
 );
