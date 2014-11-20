@@ -15,6 +15,7 @@ $twig = new Twig_Environment($loader);
 
 try{
     $bdd = new PDO('mysql:host=localhost;dbname=mycroblog', 'root', '');
+    $bdd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 }
 catch (Exception $e){
     die('Erreur:'.$e->getMessage());
@@ -24,14 +25,19 @@ if(isset($_POST['login']) AND (!empty($_POST['login']))
     AND isset($_POST['password']) AND (!empty($_POST['password']))
     AND isset($_POST['email']) AND (!empty($_POST['email']))) {
 
-    if(preg_match('^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$', 'flo69001@hotmail.fr')){
+    if(preg_match('#^[_a-z0-9._-]+@[_a-z0-9._-]{2,}\.[a-z]{2,4}$#', $_POST['email'])){
 
         if($_POST['password'] == $_POST['confirm']){
             $log = $_POST['login'];
-            $pass = $_POST['password'];
+            $pass = sha1($_POST['password']);
             $mail = $_POST['email'];
 
-            $bdd->exec("INSERT INTO users(id, email, login, password) VALUES('1', '$mail', '$log', '$pass')");
+            $req = $bdd->prepare("INSERT INTO users(email, login, password) VALUES(:email, :log, :pass)");
+            $req->execute(array(
+                'email' => $mail,
+                'log' => $log,
+                'pass' => $pass
+            ));
         }
         else{
             header('Location: register.php');
