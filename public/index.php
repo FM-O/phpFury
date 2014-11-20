@@ -15,7 +15,7 @@ $twig = new Twig_Environment($loader);
 
 $datas = array(
     'auteur' => 'Nicolas Rigal',
-    'auteur2' => 'Floriant Michel',
+    'auteur2' => 'Florian Michel',
     'application' => array(
         'name' => 'TP-01-PHP',
         'version' => '1.0'
