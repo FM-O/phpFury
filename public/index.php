@@ -61,6 +61,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 
 if(isset($_SESSION['login']) AND isset($_SESSION['password'])){
     $datas = array(
+        'user' => true,
+        'user_name' => $_SESSION['login'],
         'auteur' => 'Nicolas Rigal',
         'auteur2' => 'Florian Michel',
         'application' => array(
