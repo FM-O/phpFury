@@ -1,4 +1,5 @@
 <?php
+session_start();
 // Auto chargement des dépendences Composer
 require_once '../vendor/autoload.php';
 
@@ -13,17 +14,30 @@ $twig = new Twig_Environment($loader);
 // Dans le fichier index.twig, le code {{ name }}
 // sera remplacé par sa valeur dans le tableau ("World")
 
+if(isset($_SESSION['error_log'])){
+    if($_SESSION['error_log'] == true){
+        $error_log = true;
+    }
+    else{
+        $error_log = false;
+    }
+}
+else{
+    $error_log = false;
+}
+
 $datas = array(
     'auteur' => 'Nicolas Rigal',
     'auteur2' => 'Floriant Michel',
+    'error_log' => $error_log,
     'application' => array(
         'name' => 'TP-01-PHP',
         'version' => '1.0'
     ),
     'menu' => array(
+        'home' => 'index.php',
         'login' => 'login.php',
-        'register' => 'register.php',
-        'home' => 'index.php'
+        'register' => 'register.php'
     ),
     'current' => 'login',
     'tab' => array('20 ans', '60 kg', '175 cm', 'green lover'),
@@ -74,3 +88,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 }
 
 echo $twig->render('login.twig', $datas);
+
+if($error_log == true){
+    session_destroy();
+}
+

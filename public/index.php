@@ -37,7 +37,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
        $result = $query->fetch();
 
         if($result[0] == 0){
-            echo "NO RESULTS";
+            header('Location: login.php');
+            $_SESSION['error_log'] = true;
         }
         else{
             $request = $bdd->prepare("SELECT login, password FROM users WHERE login = :login AND password = :password");
@@ -48,8 +49,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
             $logs_result = $request->fetch();
             $_SESSION['login'] = $logs_result['login'];
             $_SESSION['password'] = $logs_result['password'];
-            echo "RESULTS FOUND";
-            echo "Bonjour ".$_SESSION['login'];
+            $_SESSION['error_log'] = false;
         }
 
 
@@ -85,9 +85,9 @@ else{
             'version' => '1.0'
         ),
         'menu' => array(
+            'home' => 'index.php',
             'login' => 'login.php',
-            'register' => 'register.php',
-            'home' => 'index.php'
+            'register' => 'register.php'
         ),
         'current' => 'home',
         'tab' => array('20 ans', '60 kg', '175 cm', 'green lover'),

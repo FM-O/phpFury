@@ -21,9 +21,9 @@ $datas = array(
         'version' => '1.0'
     ),
     'menu' => array(
+        'home' => 'index.php',
         'login' => 'login.php',
-        'register' => 'register.php',
-        'home' => 'index.php'
+        'register' => 'register.php'
     ),
     'current' => 'register',
     'tab' => array('20 ans', '60 kg', '175 cm', 'green lover'),
