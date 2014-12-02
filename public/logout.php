@@ -1,5 +1,5 @@
 <?php
-session_start();
-session_destroy();
+require_once '../application/controllers/Controller.php';
 
-header('Location: index.php');
+$controller = new Controller();
+$controller->logout();
