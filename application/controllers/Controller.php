@@ -193,7 +193,6 @@ class Controller{
             'tab' => array('20 ans', '60 kg', '175 cm', 'green lover'),
             'tab2' => array('47 ans', '122 kg', '160 cm', 'french lover')
         );
-
         $viewer = new Viewer();
         $viewer->render('register.twig', $datas);
     }
