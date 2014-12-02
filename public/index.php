@@ -1,27 +1,11 @@
 <?php
 session_start();
-// Auto chargement des dépendences Composer
-require_once '../vendor/autoload.php';
-
-// Création d'un loader TWIG,
-// pour qu'il recherche les templates dans le répertoire application/views
-$loader = new Twig_Loader_Filesystem('../application/views');
-
-// Création d'une instance de Twig
-$twig = new Twig_Environment($loader);
 
 // Compilation et Affichage du template (index.twig)
 // Dans le fichier index.twig, le code {{ name }}
 // sera remplacé par sa valeur dans le tableau ("World")
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
 
-    try{
-        $bdd = new PDO('mysql:host=localhost;dbname=mycroblog', 'root', '');
-        $bdd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    }
-    catch (Exception $e){
-        die('Erreur:'.$e->getMessage());
-    }
 
     if(isset($_POST['login']) AND (!empty($_POST['login']))
         AND isset($_POST['password']) AND (!empty($_POST['password']))){
@@ -29,40 +13,27 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
         $log = $_POST['login'];
         $pass = sha1($_POST['password']);
 
-        $query = $bdd->prepare("SELECT COUNT(*) FROM users WHERE login = :login AND password = :password");
-        $query->execute(array(
-            'login' => $log,
-            'password' => $pass
-        ));
-       $result = $query->fetch();
+        require_once '../application/models/Database.php';
 
-        if($result[0] == 0){
-            header('Location: login.php');
-            $_SESSION['error_log'] = true;
-        }
-        else{
-            $request = $bdd->prepare("SELECT login, password FROM users WHERE login = :login AND password = :password");
-            $request->execute(array(
-                'login' => $log,
-                'password' => $pass
-            ));
-            $logs_result = $request->fetch();
-            $_SESSION['login'] = $logs_result['login'];
-            $_SESSION['password'] = $logs_result['password'];
+        try{
+            $bdd = new Database();
+            $_SESSION['user'] = $bdd->getUserFrom($log, $pass);
             $_SESSION['error_log'] = false;
         }
-
-
+        catch(Exception $e){
+            $_SESSION['error_log'] = true;
+            header('Location: login.php');
+        }
     }
     else{
         header('Location: login.php');
     }
 }
 
-if(isset($_SESSION['login']) AND isset($_SESSION['password'])){
+if(isset($_SESSION['user'])){
     $datas = array(
         'user' => true,
-        'user_name' => $_SESSION['login'],
+        'user_name' => $_SESSION['user'][0],
         'auteur' => 'Nicolas Rigal',
         'auteur2' => 'Florian Michel',
         'application' => array(
@@ -97,4 +68,9 @@ else{
     );
 }
 
-echo $twig->render('index.twig', $datas);
+require_once '../application/models/Viewer.php';
+
+$viewer = new Viewer();
+$viewer->render('index.twig', $datas);
+
+

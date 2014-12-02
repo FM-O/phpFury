@@ -1,14 +1,5 @@
 <?php
 session_start();
-// Auto chargement des dépendences Composer
-require_once '../vendor/autoload.php';
-
-// Création d'un loader TWIG,
-// pour qu'il recherche les templates dans le répertoire application/views
-$loader = new Twig_Loader_Filesystem('../application/views');
-
-// Création d'une instance de Twig
-$twig = new Twig_Environment($loader);
 
 // Compilation et Affichage du template (index.twig)
 // Dans le fichier index.twig, le code {{ name }}
@@ -44,14 +35,6 @@ $datas = array(
     'tab2' => array('47 ans', '122 kg', '160 cm', 'french lover')
 );
 
-try{
-    $bdd = new PDO('mysql:host=localhost;dbname=mycroblog', 'root', '');
-    $bdd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-}
-catch (Exception $e){
-    die('Erreur:'.$e->getMessage());
-}
-
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
 
     if(isset($_POST['login']) AND (!empty($_POST['login']))
@@ -65,12 +48,9 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
                 $pass = sha1($_POST['password']);
                 $mail = $_POST['email'];
 
-                $req = $bdd->prepare("INSERT INTO users(email, login, password) VALUES(:email, :log, :pass)");
-                $req->execute(array(
-                    'email' => $mail,
-                    'log' => $log,
-                    'pass' => $pass
-                ));
+                require_once '../application/models/Database.php';
+                $db = new Database();
+                $db->saveUser($log, $pass, $mail);
             }
             else{
                 header('Location: register.php');
@@ -87,7 +67,10 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     }
 }
 
-echo $twig->render('login.twig', $datas);
+require_once '../application/models/Viewer.php';
+
+$viewer = new Viewer();
+$viewer->render('login.twig', $datas);
 
 if($error_log == true){
     session_destroy();
