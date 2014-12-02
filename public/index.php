@@ -6,3 +6,4 @@ $controller = new Controller();
 $controller->index();
 
 
+echo 'couoc';
