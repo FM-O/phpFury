@@ -5,4 +5,4 @@ require_once '../application/controllers/Controller.php';
 $controller = new Controller();
 $controller->index();
 
-
+//////////////////////////////////LOL ////////////////////////////////
