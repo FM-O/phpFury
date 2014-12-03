@@ -44,11 +44,11 @@ class Controller{
                 }
                 catch(Exception $e){
                     $_SESSION['error_log'] = true;
-                    header('Location: login.php');
+                    header('Location: index.php?action=login');
                 }
             }
             else{
-                header('Location: login.php');
+                header('Location: index.php?action=login');
             }
         }
 
@@ -63,8 +63,8 @@ class Controller{
                     'version' => '1.0'
                 ),
                 'menu' => array(
-                    'home' => 'index.php',
-                    'logout' => 'logout.php'
+                    'home' => 'index',
+                    'logout' => 'logout'
                 ),
                 'current' => 'home',
                 'tab' => array('20 ans', '60 kg', '175 cm', 'green lover'),
@@ -80,9 +80,9 @@ class Controller{
                     'version' => '1.0'
                 ),
                 'menu' => array(
-                    'home' => 'index.php',
-                    'login' => 'login.php',
-                    'register' => 'register.php'
+                    'home' => 'index',
+                    'login' => 'login',
+                    'register' => 'register'
                 ),
                 'current' => 'home',
                 'tab' => array('20 ans', '60 kg', '175 cm', 'green lover'),
@@ -121,9 +121,9 @@ class Controller{
                 'version' => '1.0'
             ),
             'menu' => array(
-                'home' => 'index.php',
-                'login' => 'login.php',
-                'register' => 'register.php'
+                'home' => 'index',
+                'login' => 'login',
+                'register' => 'register'
             ),
             'current' => 'login',
             'tab' => array('20 ans', '60 kg', '175 cm', 'green lover'),
@@ -148,17 +148,17 @@ class Controller{
                         $db->saveUser($log, $pass, $mail);
                     }
                     else{
-                        header('Location: register.php');
+                        header('Location: index.php?action=register');
                     }
 
                 }
                 else{
-                    header('Location: register.php');
+                    header('Location: index.php?action=register');
                 }
 
             }
             else{
-                header('Location: register.php');
+                header('Location: index.php?action=register');
             }
         }
 
@@ -185,9 +185,9 @@ class Controller{
                 'version' => '1.0'
             ),
             'menu' => array(
-                'home' => 'index.php',
-                'login' => 'login.php',
-                'register' => 'register.php'
+                'home' => 'index',
+                'login' => 'login',
+                'register' => 'register'
             ),
             'current' => 'register',
             'tab' => array('20 ans', '60 kg', '175 cm', 'green lover'),
