@@ -22,3 +22,5 @@ if (isset($_GET['action'])) {
 } else {
     $controller->index();
 }
+
+// REWRITE URl'S TO DO
