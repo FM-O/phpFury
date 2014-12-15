@@ -41,15 +41,15 @@ class Controller{
                     $bdd = new Database();
                     $_SESSION['user'] = $bdd->getUserFrom($log, $pass);
                     $_SESSION['error_log'] = false;
-                    header('Location: index.php?action=profile');
+                    header('Location: profile');
                 }
                 catch(Exception $e){
                     $_SESSION['error_log'] = true;
-                    header('Location: index.php?action=login');
+                    header('Location: login');
                 }
             }
             else{
-                header('Location: index.php?action=login');
+                header('Location: login');
             }
         }
 
@@ -111,7 +111,7 @@ class Controller{
                 $db->saveMessage($message, $log);
             }
             else{
-                header('Location: index.php?action=profile');
+                header('Location: profile');
             }
         }
 
@@ -146,7 +146,7 @@ class Controller{
         }
         else{
             $datas = NULL;
-            header('Location: index.php?action=login');
+            header('Location: login');
         }
         $viewer = new Viewer();
         $viewer->render('profile.twig', $datas);
@@ -209,17 +209,17 @@ class Controller{
                         $db->saveUser($log, $pass, $mail);
                     }
                     else{
-                        header('Location: index.php?action=register');
+                        header('Location: register');
                     }
 
                 }
                 else{
-                    header('Location: index.php?action=register');
+                    header('Location: register');
                 }
 
             }
             else{
-                header('Location: index.php?action=register');
+                header('Location: register');
             }
         }
 
@@ -262,6 +262,6 @@ class Controller{
         session_start();
         session_destroy();
 
-        header('Location: index.php');
+        header('Location: index');
     }
 }

@@ -7,13 +7,22 @@
         </div>
 
         <div class="container">
-            {% for message in messages %}
-                <p>id : {{ message.id }}</p>
-                <p>message : {{ message.content }}</p>
-                <p>user : {{ message.login }}</p>
-            {% endfor %}
+            <table class="table">
+                <tr>
+                    <th>id</th>
+                    <th>message</th>
+                    <th>user</th>
+                </tr>
+                {% for message in messages %}
+                    <tr>
+                        <td>{{ message.id }}</td>
+                        <td>{{ message.content }}</td>
+                        <td>@{{ message.login }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
         </div>
-        <form role="form" action="../../index.php?action=profile" method="post">
+        <form role="form" action="profile" method="post">
             <div class="form-group">
                 <p>Type your message :</p>
                 <textarea class="form-control" name="message" id="message" rows="3"></textarea>
