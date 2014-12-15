@@ -1,0 +1,27 @@
+{% extends "layout.twig" %}
+{% block content %}
+    <div class="container">
+
+        <div class="container">
+            <h1>Profile de {{ user_name }}</h1>
+        </div>
+
+        <div class="container">
+            {% for message in messages %}
+                <p>id : {{ message.id }}</p>
+                <p>message : {{ message.content }}</p>
+                <p>user : {{ message.login }}</p>
+            {% endfor %}
+        </div>
+        <form role="form" action="../../index.php?action=profile" method="post">
+            <div class="form-group">
+                <p>Type your message :</p>
+                <textarea class="form-control" name="message" id="message" rows="3"></textarea>
+            </div>
+            <div class="form-group">
+                <input type="reset" class="btn btn-default" name="reset" id="reset" value="Reset" />
+                <input type="submit" class="btn btn-default" name="send" id="send" value="Send" />
+            </div>
+        </form>
+    </div>
+{% endblock content %}

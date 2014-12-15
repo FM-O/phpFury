@@ -45,4 +45,40 @@ class Database{
         }
         return ($ret !== false) ? $ret : null;
     }
+
+    public function saveMessage($message, $login){
+
+        $bdd = $this->db->prepare("SELECT login, id FROM users WHERE login = :login");
+        $bdd->execute(array(
+            'login' => $login
+        ));
+
+        $ret = $bdd->fetch();
+
+        $now = new DateTime();
+        $now = $now->format('Y-m-d H:i:s');
+
+
+        $bdd = $this->db->prepare("INSERT INTO messages(content, date, users_id) VALUES(:message, :date, :user_id)");
+        $bdd->execute(array(
+            'message' => $message,
+            'date' => $now,
+            'user_id' => $ret[1]
+        ));
+    }
+
+    public function getMessages($user){
+
+        $bdd = $this->db->prepare("SELECT messages.id, content, date, login FROM messages
+         INNER JOIN users
+         ON users.id = messages.users_id
+         WHERE login = :user");
+        $bdd->execute(array(
+            'user' => $user
+        ));
+
+        $ret = $bdd->fetchAll();
+
+        return $ret;
+    }
 }

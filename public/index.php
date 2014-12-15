@@ -12,11 +12,14 @@ if (isset($_GET['action'])) {
         case "register":
             $controller->register();
             break;
-        case "logout":
-            $controller->logout();
+        case "profile":
+            $controller->profile();
             break;
         case "index":
             $controller->index();
+            break;
+        case "logout":
+            $controller->logout();
             break;
     }
 } else {

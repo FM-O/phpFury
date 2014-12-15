@@ -41,6 +41,7 @@ class Controller{
                     $bdd = new Database();
                     $_SESSION['user'] = $bdd->getUserFrom($log, $pass);
                     $_SESSION['error_log'] = false;
+                    header('Location: index.php?action=profile');
                 }
                 catch(Exception $e){
                     $_SESSION['error_log'] = true;
@@ -64,6 +65,7 @@ class Controller{
                 ),
                 'menu' => array(
                     'home' => 'index',
+                    'profile' => 'profile',
                     'logout' => 'logout'
                 ),
                 'current' => 'home',
@@ -91,6 +93,65 @@ class Controller{
         }
         $viewer = new Viewer();
         $viewer->render('index.twig', $datas);
+    }
+
+    public function profile(){
+
+        session_start();
+
+        if($_SERVER['REQUEST_METHOD'] == 'POST'){
+            if(isset($_POST['message']) AND !empty($_POST['message'])){
+
+                $message = $_POST['message'];
+                $log = $_SESSION['user'][0];
+
+                require_once '../application/models/Database.php';
+
+                $db = new Database();
+                $db->saveMessage($message, $log);
+            }
+            else{
+                header('Location: index.php?action=profile');
+            }
+        }
+
+        if(isset($_SESSION['user'])){
+
+            $user = $_SESSION['user'][0];
+
+            require_once '../application/models/Database.php';
+            $db = new Database();
+            $messages = $db->getMessages($user);
+
+            $datas = array(
+                'user' => true,
+                'user_name' => $_SESSION['user'][0],
+                'auteur' => 'Nicolas Rigal',
+                'auteur2' => 'Florian Michel',
+                'application' => array(
+                    'name' => 'TP-01-PHP',
+                    'version' => '1.0'
+                ),
+                'messages' => $messages,
+
+                'menu' => array(
+                    'home' => 'index',
+                    'profile' => 'profile',
+                    'logout' => 'logout'
+                ),
+                'current' => 'profile',
+                'tab' => array('20 ans', '60 kg', '175 cm', 'green lover'),
+                'tab2' => array('47 ans', '122 kg', '160 cm', 'french lover')
+            );
+        }
+        else{
+            $datas = NULL;
+            header('Location: index.php?action=login');
+        }
+        $viewer = new Viewer();
+        $viewer->render('profile.twig', $datas);
+
+
     }
 
     public function login(){
