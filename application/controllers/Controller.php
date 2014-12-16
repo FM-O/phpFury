@@ -21,6 +21,7 @@ class Controller{
     }
 
     public function index(){
+        require_once '../application/models/User.php';
         session_start();
 
         // Compilation et Affichage du template (index.twig)
@@ -35,10 +36,8 @@ class Controller{
                 $log = $_POST['login'];
                 $pass = sha1($_POST['password']);
 
-                require_once '../application/models/Database.php';
-
                 try{
-                    $bdd = new Database();
+                    $bdd = $this->db;
                     $_SESSION['user'] = $bdd->getUserFrom($log, $pass);
                     $_SESSION['error_log'] = false;
                     header('Location: profile');
@@ -54,9 +53,10 @@ class Controller{
         }
 
         if(isset($_SESSION['user'])){
+
             $datas = array(
                 'user' => true,
-                'user_name' => $_SESSION['user'][0],
+                'user_name' => $_SESSION['user'],
                 'auteur' => 'Nicolas Rigal',
                 'auteur2' => 'Florian Michel',
                 'application' => array(
@@ -96,18 +96,18 @@ class Controller{
     }
 
     public function profile(){
-
+        require_once '../application/models/User.php';
         session_start();
 
         if($_SERVER['REQUEST_METHOD'] == 'POST'){
             if(isset($_POST['message']) AND !empty($_POST['message'])){
 
                 $message = $_POST['message'];
-                $log = $_SESSION['user'][0];
+                $log = $_SESSION['user']->getLogin();
 
                 require_once '../application/models/Database.php';
 
-                $db = new Database();
+                $db = $this->db;
                 $db->saveMessage($message, $log);
             }
             else{
@@ -117,15 +117,13 @@ class Controller{
 
         if(isset($_SESSION['user'])){
 
-            $user = $_SESSION['user'][0];
+            $user = $_SESSION['user']->getLogin();
 
-            require_once '../application/models/Database.php';
-            $db = new Database();
-            $messages = $db->getMessages($user);
+            $messages = $this->db->getMessages($user);
 
             $datas = array(
                 'user' => true,
-                'user_name' => $_SESSION['user'][0],
+                'user_name' => $_SESSION['user'],
                 'auteur' => 'Nicolas Rigal',
                 'auteur2' => 'Florian Michel',
                 'application' => array(
@@ -204,8 +202,7 @@ class Controller{
                         $pass = sha1($_POST['password']);
                         $mail = $_POST['email'];
 
-                        require_once '../application/models/Database.php';
-                        $db = new Database();
+                        $db = $this->db;
                         $db->saveUser($log, $pass, $mail);
                     }
                     else{
@@ -222,8 +219,6 @@ class Controller{
                 header('Location: register');
             }
         }
-
-        require_once '../application/controllers/Controller.php';
 
         $viewer = new Viewer();
         $viewer->render('login.twig', $datas);

@@ -34,16 +34,26 @@ class Database{
     }
 
     public function getUserFrom($login, $pass){
-        $bdd = $this->db->prepare("SELECT login, password FROM users WHERE login = :login AND password = :password");
+
+        require_once 'User.php';
+
+        $bdd = $this->db->prepare("SELECT id, login, password, email FROM users WHERE login = :login AND password = :password");
         $bdd->execute(array(
             'login' => $login,
             'password' => $pass
         ));
         $ret = $bdd->fetch();
+
+        $user = new User();
+        $user->setId($ret['id']);
+        $user->setLogin($ret['login']);
+        $user->setPassword($ret['password']);
+        $user->setEmail($ret['email']);
+
         if($ret === false){
             throw new Exception();
         }
-        return ($ret !== false) ? $ret : null;
+        return ($user !== false) ? $user : null;
     }
 
     public function saveMessage($message, $login){
