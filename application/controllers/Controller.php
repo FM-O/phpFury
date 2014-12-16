@@ -98,7 +98,7 @@ class Controller{
     public function profile(){
         require_once '../application/models/User.php';
         session_start();
-        var_dump($_SESSION['user']);
+
         if($_SERVER['REQUEST_METHOD'] == 'POST'){
             if(isset($_POST['message']) AND !empty($_POST['message'])){
 
