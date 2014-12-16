@@ -98,7 +98,7 @@ class Controller{
     public function profile(){
         require_once '../application/models/User.php';
         session_start();
-
+        var_dump($_SESSION['user']);
         if($_SERVER['REQUEST_METHOD'] == 'POST'){
             if(isset($_POST['message']) AND !empty($_POST['message'])){
 
@@ -120,7 +120,7 @@ class Controller{
             $user = $_SESSION['user']->getLogin();
 
             $messages = $this->db->getMessages($user);
-
+            var_dump($messages);
             $datas = array(
                 'user' => true,
                 'user_name' => $_SESSION['user'],

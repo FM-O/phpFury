@@ -42,13 +42,13 @@ class Database{
             'login' => $login,
             'password' => $pass
         ));
-        $ret = $bdd->fetch();
+        $ret = $bdd->fetchObject();
 
         $user = new User();
-        $user->setId($ret['id']);
-        $user->setLogin($ret['login']);
-        $user->setPassword($ret['password']);
-        $user->setEmail($ret['email']);
+        $user->setId($ret->id);
+        $user->setLogin($ret->login);
+        $user->setPassword($ret->password);
+        $user->setEmail($ret->email);
 
         if($ret === false){
             throw new Exception();
@@ -63,7 +63,7 @@ class Database{
             'login' => $login
         ));
 
-        $ret = $bdd->fetch();
+        $ret = $bdd->fetchObject();
 
         $now = new DateTime();
         $now = $now->format('Y-m-d H:i:s');
@@ -73,13 +73,15 @@ class Database{
         $bdd->execute(array(
             'message' => $message,
             'date' => $now,
-            'user_id' => $ret[1]
+            'user_id' => $ret->id
         ));
     }
 
     public function getMessages($user){
 
-        $bdd = $this->db->prepare("SELECT messages.id, content, date, login FROM messages
+        require_once 'Message.php';
+
+        $bdd = $this->db->prepare("SELECT messages.id, content, date, login, users_id FROM messages
          INNER JOIN users
          ON users.id = messages.users_id
          WHERE login = :user");
@@ -87,8 +89,21 @@ class Database{
             'user' => $user
         ));
 
-        $ret = $bdd->fetchAll();
 
-        return $ret;
+        $array = new ArrayObject();
+
+        while($ret = $bdd->fetchObject()){
+            $message = new Message();
+            $message->setId($ret->id);
+            $message->setContent($ret->content);
+            $message->setDate($ret->date);
+            $message->setUsersId($ret->users_id);
+            $message->setUserLogin($ret->login);
+
+            $array->append($message);
+        }
+
+
+        return $array;
     }
 }
