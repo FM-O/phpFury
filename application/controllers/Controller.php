@@ -91,7 +91,7 @@ class Controller{
                 'tab2' => array('47 ans', '122 kg', '160 cm', 'french lover')
             );
         }
-        $viewer = new Viewer();
+        $viewer = $this->viewer;
         $viewer->render('index.twig', $datas);
     }
 
@@ -146,7 +146,7 @@ class Controller{
             $datas = NULL;
             header('Location: login');
         }
-        $viewer = new Viewer();
+        $viewer = $this->viewer;
         $viewer->render('profile.twig', $datas);
 
 
@@ -220,7 +220,7 @@ class Controller{
             }
         }
 
-        $viewer = new Viewer();
+        $viewer = $this->viewer;
         $viewer->render('login.twig', $datas);
 
         if($error_log == true){
@@ -249,7 +249,7 @@ class Controller{
             'tab' => array('20 ans', '60 kg', '175 cm', 'green lover'),
             'tab2' => array('47 ans', '122 kg', '160 cm', 'french lover')
         );
-        $viewer = new Viewer();
+        $viewer = $this->viewer;
         $viewer->render('register.twig', $datas);
     }
 
