@@ -1,0 +1,27 @@
+# Provide Specific Index Page (Set the default handler)
+DirectoryIndex /TEST/public/index.php
+
+AuthName "Page protégée, renseignez login et mot de passe"
+AuthType Basic
+AuthUserFile "/homepages/32/d532572119/htdocs/TEST/.htpasswd"
+Require valid-user
+
+Options +FollowSymLinks
+
+RewriteEngine On
+RewriteBase /TEST/public/
+
+# Si le fichier demandé est un fichier  régulier
+RewriteCond %{REQUEST_FILENAME} -s [OR]
+
+# OU, si le fichier demandé est un lien Symbolique
+RewriteCond %{REQUEST_FILENAME} -l [OR]
+
+# OU, si le fichier demandé est un repertoire
+RewriteCond %{REQUEST_FILENAME} -d
+
+# Alors la ressource est livrée telle quel
+RewriteRule ^.*$ - [NC,L]
+
+# Sinon, on réécrit l'URL afin d'appeler notre index.php
+RewriteRule ^(.*)$ index.php?action=$1 [NC,L]
