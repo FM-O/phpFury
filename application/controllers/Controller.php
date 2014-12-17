@@ -120,7 +120,7 @@ class Controller{
             $user = $_SESSION['user']->getLogin();
 
             $messages = $this->db->getMessages($user);
-            var_dump($messages);
+
             $datas = array(
                 'user' => true,
                 'user_name' => $_SESSION['user'],
@@ -206,16 +206,19 @@ class Controller{
                         $db->saveUser($log, $pass, $mail);
                     }
                     else{
+                        $_SESSION['confirm_error'] = true;
                         header('Location: register');
                     }
 
                 }
                 else{
+                    $_SESSION['mail_error'] = true;
                     header('Location: register');
                 }
 
             }
             else{
+                $_SESSION['empty_fields'] = true;
                 header('Location: register');
             }
         }
@@ -229,11 +232,51 @@ class Controller{
     }
 
     public function register(){
+        session_start();
+
+        if((isset($_SESSION['empty_fields']) AND (!empty($_SESSION['empty_fields'])))
+        OR (isset($_SESSION['mail_error']) AND (!empty($_SESSION['mail_error'])))
+        OR (isset($_SESSION['confirm_error']) AND (!empty($_SESSION['confirm_error'])))){
+            $error_register = true;
+            if(isset($_SESSION['empty_fields']) AND $_SESSION['empty_fields'] === true){
+                $empty_fields = true;
+                $mail_error = false;
+                $confirm_error = false;
+            }
+            elseif(isset($_SESSION['mail_error']) AND $_SESSION['mail_error'] === true){
+                $mail_error = true;
+                $empty_fields = false;
+                $confirm_error = false;
+            }
+            elseif(isset($_SESSION['confirm_error']) AND $_SESSION['confirm_error'] === true){
+                $confirm_error = true;
+                $empty_fields = false;
+                $mail_error = false;
+            }
+            else{
+                $empty_fields = false;
+                $mail_error = false;
+                $confirm_error = false;
+            }
+        }
+        else{
+            $error_register = false;
+            $empty_fields = false;
+            $mail_error = false;
+            $confirm_error = false;
+        }
+
+        session_destroy();
         // Compilation et Affichage du template (index.twig)
         // Dans le fichier index.twig, le code {{ name }}
         // sera remplacé par sa valeur dans le tableau ("World")
-
         $datas = array(
+            'error_register' => array(
+                'error' => $error_register,
+                'empty_fields' => $empty_fields,
+                'mail_error' => $mail_error,
+                'confirm_error' => $confirm_error
+            ),
             'auteur' => 'Nicolas Rigal',
             'auteur2' => 'Floriant Michel',
             'application' => array(
@@ -249,6 +292,7 @@ class Controller{
             'tab' => array('20 ans', '60 kg', '175 cm', 'green lover'),
             'tab2' => array('47 ans', '122 kg', '160 cm', 'french lover')
         );
+
         $viewer = $this->viewer;
         $viewer->render('register.twig', $datas);
     }

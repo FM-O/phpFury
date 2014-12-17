@@ -43,7 +43,6 @@ class Database{
             'password' => $pass
         ));
         $ret = $bdd->fetchObject();
-        var_dump($ret);
 
         if($ret === false){
             throw new Exception();
