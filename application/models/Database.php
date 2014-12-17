@@ -43,17 +43,19 @@ class Database{
             'password' => $pass
         ));
         $ret = $bdd->fetchObject();
-
-        $user = new User();
-        $user->setId($ret->id);
-        $user->setLogin($ret->login);
-        $user->setPassword($ret->password);
-        $user->setEmail($ret->email);
+        var_dump($ret);
 
         if($ret === false){
             throw new Exception();
         }
-        return ($user !== false) ? $user : null;
+        else{
+            $user = new User();
+            $user->setId($ret->id);
+            $user->setLogin($ret->login);
+            $user->setPassword($ret->password);
+            $user->setEmail($ret->email);
+            return ($user !== false) ? $user : null;
+        }
     }
 
     public function saveMessage($message, $login){
