@@ -57,8 +57,8 @@ class Controller{
             $datas = array(
                 'user' => true,
                 'user_name' => $_SESSION['user'],
-                'auteur' => 'Nicolas Rigal',
-                'auteur2' => 'Florian Michel',
+                'auteur' => 'Nicolas Rigal (Co-fondateur)',
+                'auteur2' => 'Florian Michel (Fondateur)',
                 'application' => array(
                     'name' => 'TP-01-PHP',
                     'version' => '1.0'
@@ -75,8 +75,8 @@ class Controller{
         }
         else{
             $datas = array(
-                'auteur' => 'Nicolas Rigal',
-                'auteur2' => 'Florian Michel',
+                'auteur' => 'Nicolas Rigal (Co-fondateur)',
+                'auteur2' => 'Florian Michel (Fondateur)',
                 'application' => array(
                     'name' => 'TP-01-PHP',
                     'version' => '1.0'
@@ -124,8 +124,8 @@ class Controller{
             $datas = array(
                 'user' => true,
                 'user_name' => $_SESSION['user'],
-                'auteur' => 'Nicolas Rigal',
-                'auteur2' => 'Florian Michel',
+                'auteur' => 'Nicolas Rigal (Co-fondateur)',
+                'auteur2' => 'Florian Michel (Fondateur)',
                 'application' => array(
                     'name' => 'TP-01-PHP',
                     'version' => '1.0'
@@ -172,8 +172,8 @@ class Controller{
         }
 
         $datas = array(
-            'auteur' => 'Nicolas Rigal',
-            'auteur2' => 'Floriant Michel',
+            'auteur' => 'Nicolas Rigal (Co-fondateur)',
+            'auteur2' => 'Floriant Michel (Fondateur)',
             'error_log' => $error_log,
             'application' => array(
                 'name' => 'TP-01-PHP',
@@ -272,8 +272,8 @@ class Controller{
                 'mail_error' => $mail_error,
                 'confirm_error' => $confirm_error
             ),
-            'auteur' => 'Nicolas Rigal',
-            'auteur2' => 'Floriant Michel',
+            'auteur' => 'Nicolas Rigal (Co-fondateur)',
+            'auteur2' => 'Floriant Michel (Fondateur)',
             'application' => array(
                 'name' => 'TP-01-PHP',
                 'version' => '1.0'
@@ -285,7 +285,7 @@ class Controller{
             ),
             'current' => 'register',
             'tab' => array('20 ans', '60 kg', '175 cm', 'green lover'),
-            'tab2' => array('47 ans', '122 kg', '160 cm', 'french lover')
+                    'tab2' => array('47 ans', '122 kg', '160 cm', 'french lover')
         );
 
         $viewer = $this->viewer;

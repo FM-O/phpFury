@@ -7,49 +7,25 @@
         <h2>Bonjour {{ user_name.getLogin() }}</h2>
         {% endif %}
     </div>
-    <div class="row">
-        <div class="col-md-4">
-            <h2>{{ auteur }}</h2>
-            <h3>{{ application.version }}</h3>
-            <ul>
-                <li>Indice 0 : {{ tab[0] }}</li>
-                <li>Indice 1 : {{ tab[1] }}</li>
-                <li>Indice 2 : {{ tab[2] }}</li>
-                <li>Indice 3 : {{ tab[3] }}</li>
-            </ul>
-        </div>
-        <div class="col-md-4">
-            <h2>{{ auteur2 }}</h2>
-            <h3>{{ application.version }}</h3>
-            <ul>
-                <li>Indice 0 : {{ tab2[0] }}</li>
-                <li>Indice 1 : {{ tab2[1] }}</li>
-                <li>Indice 2 : {{ tab2[2] }}</li>
-                <li>Indice 3 : {{ tab2[3] }}</li>
-            </ul>
-        </div>
-
         <div class="col-md-4">
             <h2>{{ auteur2 }}</h2>
             <h3>{{ application.version }}</h3>
             <p> Ceci est généré par une boucle </p>
             <ul>
-                {% for i in [0,1,2,3] %}
-                <li>Indice {{ i }} : {{ tab[i] }}</li>
-                {% endfor %}
-            </ul>
-
-            <ul>
-                <!--Commence à 1 -->
-                {% for el in tab %}
-                <li>Indice {{ loop.index }} : {{ el }}</li>
-                {% endfor %}
-            </ul>
-
-            <ul>
                <!-- //Commence à 0 -->
-                {% for el in tab %}
+                {% for el in tab2 %}
                 <li>Indice {{ loop.index0 }} : {{ el }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="col-md-4">
+            <h2>{{ auteur }}</h2>
+            <h3>{{ application.version }}</h3>
+            <p> Ceci est généré par une boucle </p>
+            <ul>
+                <!-- //Commence à 0 -->
+                {% for el in tab %}
+                    <li>Indice {{ loop.index0 }} : {{ el }}</li>
                 {% endfor %}
             </ul>
         </div>
