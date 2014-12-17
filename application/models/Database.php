@@ -7,10 +7,10 @@
  */
 
 class Database{
-    private $server = 'localhost';
-    private $user = 'root';
-    private $password = '';
-    private $dbname = 'mycroblog';
+    private $server = 'db557353478.db.1and1.com';
+    private $user = 'dbo557353478';
+    private $password = 'kohjb928_';
+    private $dbname = 'db557353478';
     private $db;
 
     public function __construct(){
