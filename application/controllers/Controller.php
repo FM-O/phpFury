@@ -160,7 +160,7 @@ class Controller{
         // sera remplacé par sa valeur dans le tableau ("World")
 
         if(isset($_SESSION['error_log'])){
-            if($_SESSION['error_log'] == true){
+            if($_SESSION['error_log'] === true){
                 $error_log = true;
             }
             else{
