@@ -234,37 +234,30 @@ class Controller{
     public function register(){
         session_start();
 
-        if((isset($_SESSION['empty_fields']) AND (!empty($_SESSION['empty_fields'])))
-        OR (isset($_SESSION['mail_error']) AND (!empty($_SESSION['mail_error'])))
-        OR (isset($_SESSION['confirm_error']) AND (!empty($_SESSION['confirm_error'])))){
-            $error_register = true;
             if(isset($_SESSION['empty_fields']) AND $_SESSION['empty_fields'] === true){
                 $empty_fields = true;
                 $mail_error = false;
                 $confirm_error = false;
+                $error_register = true;
             }
             elseif(isset($_SESSION['mail_error']) AND $_SESSION['mail_error'] === true){
                 $mail_error = true;
                 $empty_fields = false;
                 $confirm_error = false;
+                $error_register = true;
             }
             elseif(isset($_SESSION['confirm_error']) AND $_SESSION['confirm_error'] === true){
                 $confirm_error = true;
                 $empty_fields = false;
                 $mail_error = false;
+                $error_register = true;
             }
             else{
                 $empty_fields = false;
                 $mail_error = false;
                 $confirm_error = false;
+                $error_register = false;
             }
-        }
-        else{
-            $error_register = false;
-            $empty_fields = false;
-            $mail_error = false;
-            $confirm_error = false;
-        }
 
         session_destroy();
         // Compilation et Affichage du template (index.twig)
