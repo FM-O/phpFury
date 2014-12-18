@@ -9,7 +9,7 @@
 class Database{
     private $server = 'db557353478.db.1and1.com';
     private $user = 'dbo557353478';
-    private $password = 'kohjb928_';
+    private $password = 'mycroblog';
     private $dbname = 'db557353478';
     private $db;
 
