@@ -32,5 +32,23 @@
                 <input type="submit" class="btn btn-default" name="send" id="send" value="Send" />
             </div>
         </form>
+		<p id="carac_count"></p>
+		{% if error_type is defined and error_type == true %}
+			<p class="alert alert-danger">Votre message est <strong>vide</strong> ou dépasse les <strong>140 caractères autorisés</strong> !</p>
+		{% endif %}
     </div>
+	<script type="text/javascript">
+		var form = document.getElementById('message'),			
+			count_field = document.getElementById('carac_count');
+		
+		form.onkeyup = function() {
+			form_length = form.value.length;
+			count_field.innerHTML = form_length+' caractères';
+			if(form_length > 140) {
+				count_field.style.color = "red";
+			} else {
+				count_field.style.color = "black";
+			}
+		}
+	</script>
 {% endblock content %}

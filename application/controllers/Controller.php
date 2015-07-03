@@ -53,6 +53,10 @@ class Controller{
         }
 
         if(isset($_SESSION['user'])){
+		
+		$messages = $this->db->getAllMessages();
+		
+		$registered = true;
 
             $datas = array(
                 'user' => true,
@@ -60,9 +64,14 @@ class Controller{
                 'auteur' => 'Nicolas Rigal (Co-fondateur)',
                 'auteur2' => 'Florian Michel (Fondateur)',
                 'application' => array(
-                    'name' => 'TP-01-PHP',
+                    'name' => 'Mini-Twitter',
                     'version' => '1.0'
                 ),
+				
+				'logged' => $registered,
+				
+				'allMessages' => $messages,
+				
                 'menu' => array(
                     'home' => 'index',
                     'profile' => 'profile',
@@ -74,11 +83,13 @@ class Controller{
             );
         }
         else{
+			$registered = false;
+			
             $datas = array(
                 'auteur' => 'Nicolas Rigal (Co-fondateur)',
                 'auteur2' => 'Florian Michel (Fondateur)',
                 'application' => array(
-                    'name' => 'TP-01-PHP',
+                    'name' => 'Mini-Twitter',
                     'version' => '1.0'
                 ),
                 'menu' => array(
@@ -97,10 +108,10 @@ class Controller{
 
     public function profile(){
         require_once '../application/models/User.php';
-        session_start();
+        session_start();		
 
         if($_SERVER['REQUEST_METHOD'] == 'POST'){
-            if(isset($_POST['message']) AND !empty($_POST['message'])){
+            if(isset($_POST['message']) AND !empty($_POST['message']) AND strlen(utf8_decode($_POST['message'])) <= 140){				
 
                 $message = $_POST['message'];
                 $log = $_SESSION['user']->getLogin();
@@ -110,24 +121,34 @@ class Controller{
                 $db = $this->db;
                 $db->saveMessage($message, $log);
             }
-            else{
-                header('Location: profile');
+            else{				                
+				$_SESSION['error_type'] = true;
             }
         }
 
         if(isset($_SESSION['user'])){
-
+			
+			$error_type = false;
+			
+			if($_SESSION['error_type'] == true) {
+				$error_type = true;
+				unset($_SESSION['error_type']);
+			} else {
+				$error_type = false;
+			}
+			
             $user = $_SESSION['user']->getLogin();
 
             $messages = $this->db->getMessages($user);
 
             $datas = array(
-                'user' => true,
+				'error_type' => $error_type,
+                'user' => true,				
                 'user_name' => $_SESSION['user'],
                 'auteur' => 'Nicolas Rigal (Co-fondateur)',
                 'auteur2' => 'Florian Michel (Fondateur)',
                 'application' => array(
-                    'name' => 'TP-01-PHP',
+                    'name' => 'Mini-Twitter',
                     'version' => '1.0'
                 ),
                 'messages' => $messages,
@@ -140,7 +161,7 @@ class Controller{
                 'current' => 'profile',
                 'tab' => array('20 ans', '60 kg', '175 cm', 'green lover'),
                 'tab2' => array('47 ans', '122 kg', '160 cm', 'french lover')
-            );
+            );			
         }
         else{
             $datas = NULL;
@@ -148,8 +169,6 @@ class Controller{
         }
         $viewer = $this->viewer;
         $viewer->render('profile.twig', $datas);
-
-
     }
 
     public function login(){
@@ -176,7 +195,7 @@ class Controller{
             'auteur2' => 'Floriant Michel (Fondateur)',
             'error_log' => $error_log,
             'application' => array(
-                'name' => 'TP-01-PHP',
+                'name' => 'Mini-Twitter',
                 'version' => '1.0'
             ),
             'menu' => array(
@@ -275,7 +294,7 @@ class Controller{
             'auteur' => 'Nicolas Rigal (Co-fondateur)',
             'auteur2' => 'Floriant Michel (Fondateur)',
             'application' => array(
-                'name' => 'TP-01-PHP',
+                'name' => 'Mini-Twitter',
                 'version' => '1.0'
             ),
             'menu' => array(

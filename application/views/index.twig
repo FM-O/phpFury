@@ -7,28 +7,31 @@
         <h2>Bonjour {{ user_name.getLogin() }}</h2>
         {% endif %}
     </div>
-        <div class="col-md-4">
-            <h2>{{ auteur2 }}</h2>
-            <h3>{{ application.version }}</h3>
-            <p> Ceci est généré par une boucle </p>
-            <ul>
-               <!-- //Commence à 0 -->
-                {% for el in tab2 %}
-                <li>Indice {{ loop.index0 }} : {{ el }}</li>
-                {% endfor %}
-            </ul>
-        </div>
-        <div class="col-md-4">
-            <h2>{{ auteur }}</h2>
-            <h3>{{ application.version }}</h3>
-            <p> Ceci est généré par une boucle </p>
-            <ul>
-                <!-- //Commence à 0 -->
-                {% for el in tab %}
-                    <li>Indice {{ loop.index0 }} : {{ el }}</li>
-                {% endfor %}
-            </ul>
-        </div>
+    <div class="row">
+		<h3> Les derniers Tweets </h3>
+		
+		{% if logged == true %}
+			<table class="table">
+				<tr>
+					<th>id</th>
+					<th>message</th>
+					<th>user</th>
+					<th>posted on</th>
+				</tr>
+				{% for message in allMessages %}
+					<tr>
+						<td>{{ message.getId() }}</td>
+						<td>{{ message.getContent() }}</td>
+						<td>@{{ message.getUserLogin() }}</td>
+						<td>{{ message.getDate() }} </td>
+					</tr>
+				{% endfor %}
+			</table>
+		{% else %}
+			<div class="alert alert-warning">
+				<h4>Connectez-vous pour lire les derniers Tweets !</h4>
+			</div>
+		{% endif %}
     </div>
 </div>
 {% endblock content %}

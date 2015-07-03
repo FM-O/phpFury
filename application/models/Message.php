@@ -1,5 +1,4 @@
 <?php
-//TEST
 /**
  * Created by IntelliJ IDEA.
  * User: flo

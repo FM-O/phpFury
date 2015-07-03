@@ -1,11 +1,6 @@
 # Provide Specific Index Page (Set the default handler)
 DirectoryIndex /TEST/public/index.php
 
-AuthName "Page protégée, renseignez login et mot de passe"
-AuthType Basic
-AuthUserFile "/homepages/32/d532572119/htdocs/TEST/.htpasswd"
-Require valid-user
-
 Options +FollowSymLinks
 
 RewriteEngine On
