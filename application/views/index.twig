@@ -26,37 +26,42 @@
 				{% endfor %}
 			</table>
     </div>
-    <div class="row">
-            <h3> Les utilisateurs </h3>
-				{% for user in allUsers%}
-					<div class="list-group">
-                        <div class="list-group-item">
-                            <h3 class="list-group-item-heading">{{ user.getLogin() }}</h3>
-                            <p class="list-group-item-text">{{ user.getDescription() }}</p>
-                            <p class="colloc">
-                                {% if user.getCollocation() == "more" %}
-                                    <span class="glyphicon glyphicon-user more" title="collocation existante : cherche un ou plusieurs colloc'"></span>
-                                    <span class="glyphicon glyphicon-user more second" title="collocation existante : cherche un ou plusieurs colloc'"></span>
-                                {% elseif user.getCollocation() == "yes" %}
-                                    <span class="glyphicon glyphicon-user yes" title="seul, cherche une colloc'"></span>
-                                    <span class="glyphicon glyphicon-user yes second" title="seul, cherche une colloc'"></span>
-                                {% elseif user.getCollocation() == "no" %}
-                                    <span class="glyphicon glyphicon-user no" title="ne cherche pas de colloc'"></span>
-                                    <span class="glyphicon glyphicon-user no second" title="ne cherche pas de colloc'"></span>
-                                {% endif %}
-                            </p>
-                            <h4 class="list-group-item-heading">Centres d'intérêts</h4>
-                            <p>
-                                {% set hobbies = user.getHobbies()|split('-') %}
-                                {% for value in hobbies %}
-                                    <span class="label label-info">{{ value }}</span>
-                                {% endfor %}
-                            </p>
-                            <a href="#" title="voir le profil">Voir le profil</a>
+    <div class="row" id="home_users">
+        <h3> Les utilisateurs </h3>
+        {% for user in allUsers%}
+            <div class="list-group">
+                <div class="list-group-item">
+                    <h3 class="list-group-item-heading">
+                        {{ user.getLogin() }}
+                        {% if user.getCollocation() == "more" %}
+                            <span class="glyphicon glyphicon-user more" title="collocation existante : cherche un ou plusieurs colloc'"></span>
+                            <span class="glyphicon glyphicon-user more second" title="collocation existante : cherche un ou plusieurs colloc'"></span>
+                        {% elseif user.getCollocation() == "yes" %}
+                            <span class="glyphicon glyphicon-user yes" title="seul, cherche une colloc'"></span>
+                            <span class="glyphicon glyphicon-user yes second" title="seul, cherche une colloc'"></span>
+                        {% elseif user.getCollocation() == "no" %}
+                            <span class="glyphicon glyphicon-user no" title="ne cherche pas de colloc'"></span>
+                            <span class="glyphicon glyphicon-user no second" title="ne cherche pas de colloc'"></span>
+                        {% endif %}
+                    </h3>
+                    <p class="list-group-item-text">{{ user.getDescription() }}</p>
+                    <div class="profil-details">
+                        <h4 class="list-group-item-heading">Ville</h4>
+                        <p>{{ user.getCity() }}</p>
+                        <h4 class="list-group-item-heading">Centres d'intérêts</h4>
+                        <div id="hobbies-container">
+                            {% set hobbies = user.getHobbies()|split(',') %}
+                            {% for value in hobbies %}
+                                <span class="label label-info">{{ value }}</span>
+                            {% endfor %}
                         </div>
-					</div>
-				{% endfor %}
-			</table>
+                        <h4 class="list-group-item-heading">Entreprise</h4>
+                        <p>{{ user.getCompany() }}</p>
+                    </div>
+                    <a class="profil-details-link" href="#" title="voir le profil">Voir le profil</a>
+                </div>
+            </div>
+        {% endfor %}
     </div>
 		{% else %}
 			<div class="alert alert-warning">
@@ -64,4 +69,23 @@
 			</div>
 		{% endif %}
 </div>
+<script type="text/javascript">
+    var detail = document.getElementsByClassName('profil-details'),
+        button = document.getElementsByClassName('profil-details-link');
+
+    for (var i = 0 ; i < button.length ; i++) {
+        button[i].relatedDetails = detail[i];
+        button[i].onclick = function() {
+
+            if (this.relatedDetails.className === "profil-details displayed") {
+                this.relatedDetails.className = "profil-details";
+                this.innerHTML = "Voir le profil";
+            } else {
+                this.relatedDetails.className = "profil-details displayed";
+                this.innerHTML = "Fermer";
+            }
+            return false;
+        };
+    }
+</script>
 {% endblock content %}

@@ -13,6 +13,8 @@ Class User{
     private $description;
     private $collocation;
     private $hobbies;
+    private $city;
+    private $company;
 
     public function getId(){
         return $this->id;
@@ -69,4 +71,20 @@ Class User{
     public function setHobbies($newHobbies) {
         $this->hobbies = $newHobbies;
     }
+
+    public function getCity() {
+        return $this->city;
+    }
+
+    public function setCity($newCity) {
+        $this->city = $newCity;
+    }
+    public function getCompany() {
+        return $this->company;
+    }
+
+    public function setCompany($newCompany) {
+        $this->company = $newCompany;
+    }
+
 }

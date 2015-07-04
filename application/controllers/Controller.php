@@ -113,6 +113,7 @@ class Controller{
         session_start();
 
         $_SESSION['error_type'] = false;
+        $_SESSION['error_hobbies'] = false;
 
         $log = $_SESSION['user']->getLogin();
 
@@ -131,27 +132,45 @@ class Controller{
             }
             if (isset($_POST['description'])) {
                 if (isset($_POST['collocation'])) {
+                    if (isset($_POST['city'])) {
+                        if (isset($_POST['company'])) {
 
-                    $description = $_POST['description'];
-                    $colloc = $_POST['collocation'];
+                            $description = $_POST['description'];
+                            $colloc = $_POST['collocation'];
+                            $city = $_POST['city'];
+                            $company = $_POST['company'];
 
-                    $this->db->updateDescription($description, $colloc, $log);
+                            $this->db->updateDescription($description, trim($city), $colloc, trim($company), $log);
 
-                    $pass = $_SESSION['user']->getPassword();
-                    $_SESSION['user'] = $this->db->getUserFrom($log, $pass);
+                            $pass = $_SESSION['user']->getPassword();
+                            $_SESSION['user'] = $this->db->getUserFrom($log, $pass);
+                        }
+                    }
                 } else {
                     echo 'ERROR has occurred';
                 }
             }
             if (isset($_POST['hobby'])) {
                 $hobbies_insert = null;
-
+                $regex_error = array();
                 if (!empty($_POST['hobby'])) {
                     foreach ($_POST["hobby"] as $value) {
-                        $hobbies_insert .= trim($value).'-';
+                        if(!empty($value)) {
+                            if (preg_match("#^[a-z0-9 .äàâçùûçéèêëîïöô-]+$#ui", $value)) {
+                                array_push($regex_error, false);
+                            } else {
+                                array_push($regex_error, true);
+                            }
+                        }
+                        $hobbies_insert .= trim($value).',';
                     }
-
-                    $this->db->updateComplementary(rtrim($hobbies_insert, "-"), $log);
+                    if (!in_array(true, $regex_error)) {
+                        $this->db->updateComplementary(rtrim($hobbies_insert, ","), $log);
+                        $_SESSION['error_hobbies'] = false;
+                    } else {
+                        echo "REGEX ERROR";
+                        $_SESSION['error_hobbies'] = true;
+                    }
                 }
             }
         }
@@ -163,7 +182,16 @@ class Controller{
 				unset($_SESSION['error_type']);
 			} else {
 				$error_type = false;
+                unset($_SESSION['error_type']);
 			}
+
+            if($_SESSION['error_hobbies'] == true) {
+                $error_hobbies = true;
+                unset($_SESSION['error_hobbies']);
+            } else {
+                $error_hobbies = false;
+                unset($_SESSION['error_hobbies']);
+            }
 
             $user = $_SESSION['user']->getLogin();
 
@@ -171,6 +199,7 @@ class Controller{
 
             $datas = array(
 				'error_type' => $error_type,
+                'error_hobbies' => $error_hobbies,
                 'user' => true,
                 'user_name' => $user,
                 'user_generic' => $_SESSION['user'],

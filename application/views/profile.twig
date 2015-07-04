@@ -2,11 +2,11 @@
 {% block content %}
     <div class="container">
 
-        <div class="container">
+        <div class="row">
             <h1>Profile de {{ user_name }}</h1>
         </div>
 
-        <div class="container">
+        <div class="row" id="wall-messages-profile">
             <h4>Les derniers messages que tu as posté</h4>
             <table class="table">
                 <tr>
@@ -20,66 +20,79 @@
                     </tr>
                 {% endfor %}
             </table>
+            <form role="form" action="profile" method="post">
+                <div class="form-group">
+                    <label for="message">Ecrire un message sur le mur :</label>
+                    <textarea class="form-control" name="message" id="message" rows="3"></textarea>
+                </div>
+                <div class="form-group">
+                    <input type="reset" class="btn btn-default" name="reset" id="reset" value="Reset" />
+                    <input type="submit" class="btn btn-default" name="send" id="send" value="Send" />
+                </div>
+            </form>
+            <p id="carac_count"></p>
+            {% if error_type is defined and error_type == true %}
+                <p class="alert alert-danger">Votre message est <strong>vide</strong> ou dépasse les <strong>140 caractères autorisés</strong> !</p>
+            {% endif %}
         </div>
-        <form role="form" action="profile" method="post">
-            <div class="form-group">
-                <label for="message">Ecrire un message sur le mur :</label>
-                <textarea class="form-control" name="message" id="message" rows="3"></textarea>
-            </div>
-            <div class="form-group">
-                <input type="reset" class="btn btn-default" name="reset" id="reset" value="Reset" />
-                <input type="submit" class="btn btn-default" name="send" id="send" value="Send" />
-            </div>
-        </form>
-		<p id="carac_count"></p>
-		{% if error_type is defined and error_type == true %}
-			<p class="alert alert-danger">Votre message est <strong>vide</strong> ou dépasse les <strong>140 caractères autorisés</strong> !</p>
-		{% endif %}
-        <form role="form" action="profile" method="post">
-            <div class="form-group">
-                <label for="description">Présentes-toi en quelques mots ! (ou pas)</label>
-                <textarea class="form-control" name="description" id="description" rows="3">{{ user_generic.getDescription() }}</textarea>
-            </div>
-            <div class="form-group">
-                <div class="radio">
-                    <label>
-                        <input type="radio" name="collocation" id="no-coloc" value="no" checked>
-                        Je ne cherche pas de collocation
-                    </label>
+        <div class="row" id="general-description-profile">
+            <form role="form" action="profile" method="post">
+                <div class="form-group">
+                    <label for="description">Présentes-toi en quelques mots ! (ou pas)</label>
+                    <textarea class="form-control" name="description" id="description" rows="3">{{ user_generic.getDescription() }}</textarea>
+                    <label for="city">Ta ville ?</label>
+                    <input class="form-control" type="text" name="city" id="city" value={{ user_generic.getCity() }} />
                 </div>
-                <div class="radio">
-                    <label>
-                        <input type="radio" name="collocation" id="lf-coloc" value="yes">
-                        Je suis à la recherche d'une collocation
-                    </label>
+                <div class="form-group">
+                    <div class="radio">
+                        <label>
+                            <input type="radio" name="collocation" id="no-coloc" value="no" checked />
+                            Je ne cherche pas de collocation
+                        </label>
+                    </div>
+                    <div class="radio">
+                        <label>
+                            <input type="radio" name="collocation" id="lf-coloc" value="yes" />
+                            Je suis à la recherche d'une collocation
+                        </label>
+                    </div>
+                    <div class="radio">
+                        <label>
+                            <input type="radio" name="collocation" id="lf-more" value="more" />
+                            J'ai déjà une collocation, on cherche une ou plusieurs personnes
+                        </label>
+                    </div>
                 </div>
-                <div class="radio">
-                    <label>
-                        <input type="radio" name="collocation" id="lf-more" value="more">
-                        J'ai déjà une collocation, on cherche une ou plusieurs personnes
-                    </label>
+                <div class="form-group">
+                    <label for="company">Ton entreprise</label>
+                    <input type="text" class="form-control" name="company" id="company" value={{ user_generic.getCompany() }} />
                 </div>
-            </div>
-            <div class="form-group">
-                <input type="reset" class="btn btn-default" name="reset" id="reset" value="Reset" />
-                <input type="submit" class="btn btn-default" name="send" id="send" value="Send" />
-            </div>
-        </form>
-        <form role="form" action="profile" method="post">
-            <div class="form-group" id="hobbies-fields">
-                <label>
-                    Sinon, tes hobbies ?
-                    <input type="text" class="form-control" name="hobby[]" />
-                    <input type="text" class="form-control" name="hobby[]" />
-                    <input type="text" class="form-control" name="hobby[]" />
-                </label>
-                <span class="glyphicon glyphicon-plus" id="add-hobby" title="Ajouter un champ"></span>
-            </div>
-            <div class="form-group">
-                <input type="reset" class="btn btn-default" name="reset" id="reset" value="Reset" />
-                <input type="submit" class="btn btn-default" name="send" id="send" value="Send" />
-            </div>
-        </form>
+                <div class="form-group">
+                    <input type="reset" class="btn btn-default" name="reset" id="reset" value="Reset" />
+                    <input type="submit" class="btn btn-default" name="send" id="send" value="Send" />
+                </div>
+            </form>
+        </div>
+        <div class="row" id="hobbies-profile">
+            <form role="form" action="profile" method="post">
+                <div class="form-group" id="hobbies-fields">
+                    <label>
+                        Sinon, tes hobbies ?
+                        <input type="text" class="form-control" name="hobby[]" />
+                        <input type="text" class="form-control" name="hobby[]" />
+                        <input type="text" class="form-control" name="hobby[]" />
+                    </label>
+                    <span class="glyphicon glyphicon-plus" id="add-hobby" title="Ajouter un champ"></span>
+                </div>
+                <div class="form-group">
+                    <input type="reset" class="btn btn-default" name="reset" id="reset" value="Reset" />
+                    <input type="submit" class="btn btn-default" name="send" id="send" value="Send" />
+                </div>
+            </form>
+            {% if error_hobbies is defined and error_hobbies == true %}
+                <p class="alert alert-danger">Seuls les caractères <strong>alphanumériques</strong>, les <strong>espaces</strong>, les <strong>tirets</strong> et les <strong>points sont autorisés</strong></p>
+            {% endif %}
+        </div>
     </div>
 	<script type="text/javascript">
 		var form = document.getElementById('message'),			
