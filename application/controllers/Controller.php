@@ -54,9 +54,10 @@ class Controller{
 
         if(isset($_SESSION['user'])){
 
-		$messages = $this->db->getAllMessages();
+		    $messages = $this->db->getAllMessages();
+            $users = $this->db->getAllUsers();
 
-		$registered = true;
+		    $registered = true;
 
             $datas = array(
                 'user' => true,
@@ -64,13 +65,15 @@ class Controller{
                 'auteur' => 'Nicolas Rigal (Co-fondateur)',
                 'auteur2' => 'Florian Michel (Fondateur)',
                 'application' => array(
-                    'name' => 'Mini-Twitter',
+                    'name' => 'Colloc\'DIM',
                     'version' => '1.0'
                 ),
 
 				'logged' => $registered,
 
 				'allMessages' => $messages,
+
+                'allUsers' => $users,
 
                 'menu' => array(
                     'home' => 'index',
@@ -89,7 +92,7 @@ class Controller{
                 'auteur' => 'Nicolas Rigal (Co-fondateur)',
                 'auteur2' => 'Florian Michel (Fondateur)',
                 'application' => array(
-                    'name' => 'Mini-Twitter',
+                    'name' => 'Colloc\'DIM',
                     'version' => '1.0'
                 ),
                 'menu' => array(
@@ -112,19 +115,34 @@ class Controller{
 
         $_SESSION['error_type'] = false;
 
+        $log = $_SESSION['user']->getLogin();
+
         if($_SERVER['REQUEST_METHOD'] == 'POST'){
-            if(isset($_POST['message']) AND !empty($_POST['message']) AND strlen(utf8_decode($_POST['message'])) <= 140){
+            if(isset($_POST['message'])){
+                if (!empty($_POST['message']) AND strlen(utf8_decode($_POST['message'])) <= 140) {
 
-                $message = $_POST['message'];
-                $log = $_SESSION['user']->getLogin();
+                    $message = $_POST['message'];
 
-                require_once '../application/models/Database.php';
+                    $db = $this->db;
+                    $db->saveMessage($message, $log);
 
-                $db = $this->db;
-                $db->saveMessage($message, $log);
+                } else {
+                    $_SESSION['error_type'] = true;
+                }
             }
-            else{
-				$_SESSION['error_type'] = true;
+            if (isset($_POST['description'])) {
+                if (isset($_POST['collocation'])) {
+
+                    $description = $_POST['description'];
+                    $colloc = $_POST['collocation'];
+
+                    $this->db->updateDescription($description, $colloc, $log);
+
+                    $pass = $_SESSION['user']->getPassword();
+                    $_SESSION['user'] = $this->db->getUserFrom($log, $pass);
+                } else {
+                    echo 'ERROR has occurred';
+                }
             }
         }
 
@@ -144,11 +162,12 @@ class Controller{
             $datas = array(
 				'error_type' => $error_type,
                 'user' => true,
-                'user_name' => $_SESSION['user'],
+                'user_name' => $user,
+                'user_generic' => $_SESSION['user'],
                 'auteur' => 'Nicolas Rigal (Co-fondateur)',
                 'auteur2' => 'Florian Michel (Fondateur)',
                 'application' => array(
-                    'name' => 'Mini-Twitter',
+                    'name' => 'Colloc\'DIM',
                     'version' => '1.0'
                 ),
                 'messages' => $messages,
@@ -195,7 +214,7 @@ class Controller{
             'auteur2' => 'Floriant Michel (Fondateur)',
             'error_log' => $error_log,
             'application' => array(
-                'name' => 'Mini-Twitter',
+                'name' => 'Colloc\'DIM',
                 'version' => '1.0'
             ),
             'menu' => array(
@@ -294,7 +313,7 @@ class Controller{
             'auteur' => 'Nicolas Rigal (Co-fondateur)',
             'auteur2' => 'Floriant Michel (Fondateur)',
             'application' => array(
-                'name' => 'Mini-Twitter',
+                'name' => 'Colloc\'DIM',
                 'version' => '1.0'
             ),
             'menu' => array(

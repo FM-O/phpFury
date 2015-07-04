@@ -10,6 +10,8 @@ Class User{
     private $login;
     private $password;
     private $email;
+    private $description;
+    private $collocation;
 
     public function getId(){
         return $this->id;
@@ -41,5 +43,21 @@ Class User{
 
     public function setEmail($newEmail){
         $this->email = $newEmail;
+    }
+
+    public function getDescription() {
+        return $this->description;
+    }
+
+    public function setDescription($newDescription) {
+        $this->description = $newDescription;
+    }
+
+    public function getCollocation() {
+        return $this->collocation;
+    }
+
+    public function setCollocation($newCollocation) {
+        $this->collocation = $newCollocation;
     }
 }

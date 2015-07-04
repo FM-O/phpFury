@@ -8,30 +8,56 @@
         {% endif %}
     </div>
     <div class="row">
-		<h3> Les derniers Tweets </h3>
+		<h3> Les derniers messages </h3>
 		
 		{% if logged == true %}
 			<table class="table">
 				<tr>
-					<th>id</th>
 					<th>message</th>
 					<th>user</th>
 					<th>posted on</th>
 				</tr>
 				{% for message in allMessages %}
 					<tr>
-						<td>{{ message.getId() }}</td>
 						<td>{{ message.getContent() }}</td>
 						<td>@{{ message.getUserLogin() }}</td>
 						<td>{{ message.getDate() }} </td>
 					</tr>
 				{% endfor %}
 			</table>
+    </div>
+    <div class="row">
+            <h3> Les utilisateurs </h3>
+			<table class="table">
+				<tr>
+					<th>login</th>
+					<th>description</th>
+					<th>collocation</th>
+				</tr>
+				{% for user in allUsers%}
+					<tr>
+						<td>{{ user.getLogin() }}</td>
+						<td>{{ user.getDescription() }}</td>
+						<td>
+                            {% if user.getCollocation() == "more" %}
+                                <span class="glyphicon glyphicon-user more"></span>
+                                <span class="glyphicon glyphicon-user more second"></span>
+                            {% elseif user.getCollocation() == "yes" %}
+                                <span class="glyphicon glyphicon-user yes"></span>
+                                <span class="glyphicon glyphicon-user yes second"></span>
+                            {% elseif user.getCollocation() == "no" %}
+                                <span class="glyphicon glyphicon-user no"></span>
+                                <span class="glyphicon glyphicon-user no second"></span>
+                            {% endif %}
+                        </td>
+					</tr>
+				{% endfor %}
+			</table>
+    </div>
 		{% else %}
 			<div class="alert alert-warning">
-				<h4>Connectez-vous pour lire les derniers Tweets !</h4>
+				<h4>Connectes-toi pour lire les derniers messages et consulter les profils !</h4>
 			</div>
 		{% endif %}
-    </div>
 </div>
 {% endblock content %}

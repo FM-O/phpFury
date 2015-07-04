@@ -3,28 +3,27 @@
     <div class="container">
 
         <div class="container">
-            <h1>Profile de {{ user_name.getLogin() }}</h1>
+            <h1>Profile de {{ user_name }}</h1>
         </div>
 
         <div class="container">
+            <h4>Les derniers messages que tu as posté</h4>
             <table class="table">
                 <tr>
-                    <th>id</th>
                     <th>message</th>
-                    <th>user</th>
+                    <th>Posted on</th>
                 </tr>
                 {% for message in messages %}
                     <tr>
-                        <td>{{ message.getId() }}</td>
                         <td>{{ message.getContent() }}</td>
-                        <td>@{{ message.getUserLogin() }}</td>
+                        <td>{{ message.getDate() }}</td>
                     </tr>
                 {% endfor %}
             </table>
         </div>
         <form role="form" action="profile" method="post">
             <div class="form-group">
-                <p>Type your message :</p>
+                <label for="message">Ecrire un message sur le mur :</label>
                 <textarea class="form-control" name="message" id="message" rows="3"></textarea>
             </div>
             <div class="form-group">
@@ -36,13 +35,50 @@
 		{% if error_type is defined and error_type == true %}
 			<p class="alert alert-danger">Votre message est <strong>vide</strong> ou dépasse les <strong>140 caractères autorisés</strong> !</p>
 		{% endif %}
+        <form role="form" action="profile" method="post">
+            <div class="form-group">
+                <label for="description">Type your description :</label>
+                <textarea class="form-control" name="description" id="description" rows="3">{{ user_generic.getDescription() }}</textarea>
+            </div>
+            <div class="form-group">
+                <div class="radio">
+                    <label>
+                        <input type="radio" name="collocation" id="no-coloc" value="no" checked>
+                        Je ne cherche pas de collocation
+                    </label>
+                </div>
+                <div class="radio">
+                    <label>
+                        <input type="radio" name="collocation" id="lf-coloc" value="yes">
+                        Je suis à la recherche d'une collocation
+                    </label>
+                </div>
+                <div class="radio">
+                    <label>
+                        <input type="radio" name="collocation" id="lf-more" value="more">
+                        J'ai déjà une collocation, on cherche une ou plusieurs personnes
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="reset" class="btn btn-default" name="reset" id="reset" value="Reset" />
+                <input type="submit" class="btn btn-default" name="send" id="send" value="Send" />
+            </div>
+        </form>
+
+        <div class="">
+            <h3>Description</h3>
+            <p>
+                {{ user_generic.getDescription() }}
+            </p>
+        </div>
     </div>
 	<script type="text/javascript">
 		var form = document.getElementById('message'),			
 			count_field = document.getElementById('carac_count');
 		
 		form.onkeyup = function() {
-			form_length = form.value.length;
+			var form_length = form.value.length;
 			count_field.innerHTML = form_length+' caractères';
 			if(form_length > 140) {
 				count_field.style.color = "red";
