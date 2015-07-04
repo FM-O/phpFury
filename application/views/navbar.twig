@@ -16,7 +16,7 @@
             <ul class="nav navbar-nav">
                 {% for name, url in menu %}
                     <li {% if current == name %} class="active" {% endif %}>
-                        <a href="/TEST/{{ url}}">{{ name|capitalize}}</a>
+                        <a href="/{{url}}">{{ name|capitalize}}</a>
                     </li>
                 {% endfor %}
             </ul>

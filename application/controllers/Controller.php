@@ -108,10 +108,12 @@ class Controller{
 
     public function profile(){
         require_once '../application/models/User.php';
-        session_start();		
+        session_start();
+
+        $_SESSION['error_type'] = false;
 
         if($_SERVER['REQUEST_METHOD'] == 'POST'){
-            if(isset($_POST['message']) AND !empty($_POST['message']) AND strlen(utf8_decode($_POST['message'])) <= 140){				
+            if(isset($_POST['message']) AND !empty($_POST['message']) AND strlen(utf8_decode($_POST['message'])) <= 140){
 
                 $message = $_POST['message'];
                 $log = $_SESSION['user']->getLogin();
@@ -121,14 +123,12 @@ class Controller{
                 $db = $this->db;
                 $db->saveMessage($message, $log);
             }
-            else{				                
+            else{
 				$_SESSION['error_type'] = true;
             }
         }
 
         if(isset($_SESSION['user'])){
-			
-			$error_type = false;
 			
 			if($_SESSION['error_type'] == true) {
 				$error_type = true;
