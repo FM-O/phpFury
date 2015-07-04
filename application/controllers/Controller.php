@@ -53,9 +53,9 @@ class Controller{
         }
 
         if(isset($_SESSION['user'])){
-		
+
 		$messages = $this->db->getAllMessages();
-		
+
 		$registered = true;
 
             $datas = array(
@@ -67,11 +67,11 @@ class Controller{
                     'name' => 'Mini-Twitter',
                     'version' => '1.0'
                 ),
-				
+
 				'logged' => $registered,
-				
+
 				'allMessages' => $messages,
-				
+
                 'menu' => array(
                     'home' => 'index',
                     'profile' => 'profile',
@@ -84,7 +84,7 @@ class Controller{
         }
         else{
 			$registered = false;
-			
+
             $datas = array(
                 'auteur' => 'Nicolas Rigal (Co-fondateur)',
                 'auteur2' => 'Florian Michel (Fondateur)',
@@ -129,21 +129,21 @@ class Controller{
         }
 
         if(isset($_SESSION['user'])){
-			
+
 			if($_SESSION['error_type'] == true) {
 				$error_type = true;
 				unset($_SESSION['error_type']);
 			} else {
 				$error_type = false;
 			}
-			
+
             $user = $_SESSION['user']->getLogin();
 
             $messages = $this->db->getMessages($user);
 
             $datas = array(
 				'error_type' => $error_type,
-                'user' => true,				
+                'user' => true,
                 'user_name' => $_SESSION['user'],
                 'auteur' => 'Nicolas Rigal (Co-fondateur)',
                 'auteur2' => 'Florian Michel (Fondateur)',
@@ -161,7 +161,7 @@ class Controller{
                 'current' => 'profile',
                 'tab' => array('20 ans', '60 kg', '175 cm', 'green lover'),
                 'tab2' => array('47 ans', '122 kg', '160 cm', 'french lover')
-            );			
+            );
         }
         else{
             $datas = NULL;
