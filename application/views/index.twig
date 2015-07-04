@@ -14,7 +14,7 @@
 			<table class="table">
 				<tr>
 					<th>message</th>
-					<th>user</th>
+					<th>pseudo</th>
 					<th>posted on</th>
 				</tr>
 				{% for message in allMessages %}
@@ -28,29 +28,33 @@
     </div>
     <div class="row">
             <h3> Les utilisateurs </h3>
-			<table class="table">
-				<tr>
-					<th>login</th>
-					<th>description</th>
-					<th>collocation</th>
-				</tr>
 				{% for user in allUsers%}
-					<tr>
-						<td>{{ user.getLogin() }}</td>
-						<td>{{ user.getDescription() }}</td>
-						<td>
-                            {% if user.getCollocation() == "more" %}
-                                <span class="glyphicon glyphicon-user more"></span>
-                                <span class="glyphicon glyphicon-user more second"></span>
-                            {% elseif user.getCollocation() == "yes" %}
-                                <span class="glyphicon glyphicon-user yes"></span>
-                                <span class="glyphicon glyphicon-user yes second"></span>
-                            {% elseif user.getCollocation() == "no" %}
-                                <span class="glyphicon glyphicon-user no"></span>
-                                <span class="glyphicon glyphicon-user no second"></span>
-                            {% endif %}
-                        </td>
-					</tr>
+					<div class="list-group">
+                        <div class="list-group-item">
+                            <h3 class="list-group-item-heading">{{ user.getLogin() }}</h3>
+                            <p class="list-group-item-text">{{ user.getDescription() }}</p>
+                            <p class="colloc">
+                                {% if user.getCollocation() == "more" %}
+                                    <span class="glyphicon glyphicon-user more" title="collocation existante : cherche un ou plusieurs colloc'"></span>
+                                    <span class="glyphicon glyphicon-user more second" title="collocation existante : cherche un ou plusieurs colloc'"></span>
+                                {% elseif user.getCollocation() == "yes" %}
+                                    <span class="glyphicon glyphicon-user yes" title="seul, cherche une colloc'"></span>
+                                    <span class="glyphicon glyphicon-user yes second" title="seul, cherche une colloc'"></span>
+                                {% elseif user.getCollocation() == "no" %}
+                                    <span class="glyphicon glyphicon-user no" title="ne cherche pas de colloc'"></span>
+                                    <span class="glyphicon glyphicon-user no second" title="ne cherche pas de colloc'"></span>
+                                {% endif %}
+                            </p>
+                            <h4 class="list-group-item-heading">Centres d'intérêts</h4>
+                            <p>
+                                {% set hobbies = user.getHobbies()|split('-') %}
+                                {% for value in hobbies %}
+                                    <span class="label label-info">{{ value }}</span>
+                                {% endfor %}
+                            </p>
+                            <a href="#" title="voir le profil">Voir le profil</a>
+                        </div>
+					</div>
 				{% endfor %}
 			</table>
     </div>

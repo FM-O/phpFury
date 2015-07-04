@@ -37,7 +37,7 @@
 		{% endif %}
         <form role="form" action="profile" method="post">
             <div class="form-group">
-                <label for="description">Type your description :</label>
+                <label for="description">Présentes-toi en quelques mots ! (ou pas)</label>
                 <textarea class="form-control" name="description" id="description" rows="3">{{ user_generic.getDescription() }}</textarea>
             </div>
             <div class="form-group">
@@ -65,13 +65,21 @@
                 <input type="submit" class="btn btn-default" name="send" id="send" value="Send" />
             </div>
         </form>
-
-        <div class="">
-            <h3>Description</h3>
-            <p>
-                {{ user_generic.getDescription() }}
-            </p>
-        </div>
+        <form role="form" action="profile" method="post">
+            <div class="form-group" id="hobbies-fields">
+                <label>
+                    Sinon, tes hobbies ?
+                    <input type="text" class="form-control" name="hobby[]" />
+                    <input type="text" class="form-control" name="hobby[]" />
+                    <input type="text" class="form-control" name="hobby[]" />
+                </label>
+                <span class="glyphicon glyphicon-plus" id="add-hobby" title="Ajouter un champ"></span>
+            </div>
+            <div class="form-group">
+                <input type="reset" class="btn btn-default" name="reset" id="reset" value="Reset" />
+                <input type="submit" class="btn btn-default" name="send" id="send" value="Send" />
+            </div>
+        </form>
     </div>
 	<script type="text/javascript">
 		var form = document.getElementById('message'),			
@@ -85,6 +93,17 @@
 			} else {
 				count_field.style.color = "black";
 			}
-		}
+		};
+
+        var add_hobby = document.getElementById("add-hobby"),
+            hobbies_fields = document.getElementById("hobbies-fields").firstElementChild;
+
+        add_hobby.onclick = function() {
+            var new_field = document.createElement('input');
+            new_field.type = "text";
+            new_field.className = "form-control";
+            new_field.name= "hobby[]";
+            hobbies_fields.appendChild(new_field);
+        };
 	</script>
 {% endblock content %}

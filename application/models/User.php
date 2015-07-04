@@ -12,6 +12,7 @@ Class User{
     private $email;
     private $description;
     private $collocation;
+    private $hobbies;
 
     public function getId(){
         return $this->id;
@@ -59,5 +60,13 @@ Class User{
 
     public function setCollocation($newCollocation) {
         $this->collocation = $newCollocation;
+    }
+
+    public function getHobbies() {
+        return $this->hobbies;
+    }
+
+    public function setHobbies($newHobbies) {
+        $this->hobbies = $newHobbies;
     }
 }

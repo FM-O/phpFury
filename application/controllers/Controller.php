@@ -23,7 +23,6 @@ class Controller{
     public function index(){
         require_once '../application/models/User.php';
         session_start();
-
         // Compilation et Affichage du template (index.twig)
         // Dans le fichier index.twig, le code {{ name }}
         // sera remplacé par sa valeur dans le tableau ("World")
@@ -118,7 +117,7 @@ class Controller{
         $log = $_SESSION['user']->getLogin();
 
         if($_SERVER['REQUEST_METHOD'] == 'POST'){
-            if(isset($_POST['message'])){
+            if (isset($_POST['message'])) {
                 if (!empty($_POST['message']) AND strlen(utf8_decode($_POST['message'])) <= 140) {
 
                     $message = $_POST['message'];
@@ -142,6 +141,17 @@ class Controller{
                     $_SESSION['user'] = $this->db->getUserFrom($log, $pass);
                 } else {
                     echo 'ERROR has occurred';
+                }
+            }
+            if (isset($_POST['hobby'])) {
+                $hobbies_insert = null;
+
+                if (!empty($_POST['hobby'])) {
+                    foreach ($_POST["hobby"] as $value) {
+                        $hobbies_insert .= trim($value).'-';
+                    }
+
+                    $this->db->updateComplementary(rtrim($hobbies_insert, "-"), $log);
                 }
             }
         }
