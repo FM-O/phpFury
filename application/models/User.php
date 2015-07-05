@@ -15,6 +15,7 @@ Class User{
     private $hobbies;
     private $city;
     private $company;
+    private $visible_mail;
 
     public function getId(){
         return $this->id;
@@ -85,6 +86,14 @@ Class User{
 
     public function setCompany($newCompany) {
         $this->company = $newCompany;
+    }
+
+    public function getVisibleMail() {
+        return $this->visible_mail;
+    }
+
+    public function setVisibleMail($newVisibleMail) {
+        $this->visible_mail = $newVisibleMail;
     }
 
 }

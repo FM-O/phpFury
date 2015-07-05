@@ -139,8 +139,13 @@ class Controller{
                             $colloc = $_POST['collocation'];
                             $city = $_POST['city'];
                             $company = $_POST['company'];
+                            if (isset($_POST['display-mail'])) {
+                                $visible_mail = true;
+                            } else {
+                                $visible_mail = false;
+                            }
 
-                            $this->db->updateDescription($description, trim($city), $colloc, trim($company), $log);
+                            $this->db->updateDescription($description, trim($city), $colloc, trim($company), $visible_mail, $log);
 
                             $pass = $_SESSION['user']->getPassword();
                             $_SESSION['user'] = $this->db->getUserFrom($log, $pass);
