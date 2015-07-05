@@ -277,7 +277,7 @@ class Controller{
                 AND isset($_POST['password']) AND (!empty($_POST['password']))
                 AND isset($_POST['email']) AND (!empty($_POST['email']))) {
 
-                if(preg_match('#^[_a-z0-9._-]+@[_a-z0-9._-]{2,}\.[a-z]{2,4}$#', $_POST['email'])){
+                if(preg_match('#^[a-z0-9._-]+@[_a-z0-9._-]{2,}\.[a-z]{2,4}$#i', $_POST['email'])){
 
                     if($_POST['password'] == $_POST['confirm']){
                         $log = $_POST['login'];
