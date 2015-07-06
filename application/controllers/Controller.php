@@ -183,20 +183,25 @@ class Controller{
 
         if(isset($_SESSION['user'])){
 
-			if($_SESSION['error_type'] == true) {
-				$error_type = true;
-				unset($_SESSION['error_type']);
-			} else {
-				$error_type = false;
-                unset($_SESSION['error_type']);
-			}
+            $error_type = false;
+            $error_hobbies = false;
 
-            if($_SESSION['error_hobbies'] == true) {
-                $error_hobbies = true;
-                unset($_SESSION['error_hobbies']);
-            } else {
-                $error_hobbies = false;
-                unset($_SESSION['error_hobbies']);
+            if (isset($_SESSION['error_hobbies']) || isset($_SESSION['error_type'])) {
+                if($_SESSION['error_type'] == true) {
+                    $error_type = true;
+                    unset($_SESSION['error_type']);
+                } else {
+                    $error_type = false;
+                    unset($_SESSION['error_type']);
+                }
+
+                if($_SESSION['error_hobbies'] == true) {
+                    $error_hobbies = true;
+                    unset($_SESSION['error_hobbies']);
+                } else {
+                    $error_hobbies = false;
+                    unset($_SESSION['error_hobbies']);
+                }
             }
 
             $user = $_SESSION['user']->getLogin();
