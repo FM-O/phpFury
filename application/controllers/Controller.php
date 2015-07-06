@@ -112,12 +112,13 @@ class Controller{
         require_once '../application/models/User.php';
         session_start();
 
-        $_SESSION['error_type'] = false;
-        $_SESSION['error_hobbies'] = false;
-
-        $log = $_SESSION['user']->getLogin();
-
         if($_SERVER['REQUEST_METHOD'] == 'POST'){
+
+            $_SESSION['error_type'] = false;
+            $_SESSION['error_hobbies'] = false;
+
+            $log = $_SESSION['user']->getLogin();
+
             if (isset($_POST['message'])) {
                 if (!empty($_POST['message']) AND strlen(utf8_decode($_POST['message'])) <= 140) {
 
